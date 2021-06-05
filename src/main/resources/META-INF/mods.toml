@@ -1,0 +1,18 @@
+modLoader="javafml"
+loaderVersion="[36,)"
+license="MIT"
+issueTrackerURL="https://github.com/BigVirusBoi/Bobs-Weed-Mod/issues"
+
+[[mods]]
+modId="bobs_weed_mod"
+version="${file.jarVersion}"
+displayName="Bob's Weed Mod"
+#updateJSONURL="http://myurl.me/"
+#displayURL="http://example.com/"
+logoFile="logo.png"
+credits="BigVirusBoi"
+authors="BigVirusBoi"
+description='''
+This is a weed mod I made for fun!
+PLEASE do NOT take this seriously. I DO NOT ENDORSE DRUGS OR SMOKING OR WEED. This is only made FOR FUN!
+'''

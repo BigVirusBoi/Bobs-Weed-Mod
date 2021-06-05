@@ -1,0 +1,17 @@
+{
+  "itemGroup.weed": "BigVirusBoi's Weed Mod",
+
+  "item.bobs_weed_mod.cannabis_leaf": "Cannabis Leaf",
+  "item.bobs_weed_mod.dried_cannabis_leaf": "Dried Cannabis Leaf",
+  "item.bobs_weed_mod.burnt_cannabis_leaf": "Burnt Cannabis Leaf",
+  "item.bobs_weed_mod.cannabis_bud": "Cannabis Bud",
+  "item.bobs_weed_mod.dried_cannabis_bud": "Dried Cannabis Bud",
+  "item.bobs_weed_mod.burnt_cannabis_bud": "Burnt Cannabis Bud",
+  "item.bobs_weed_mod.cannabis_seeds": "Cannabis Seeds",
+  "item.bobs_weed_mod.rolling_paper": "Rolling Paper",
+  "item.bobs_weed_mod.joint": "Joint",
+  "item.bobs_weed_mod.frank_joint": "Frank Joint",
+
+  "block.bobs_weed_mod.cannabis_plant": "Cannabis Plant",
+  "block.bobs_weed_mod.heated_table": "Heated Table"
+}

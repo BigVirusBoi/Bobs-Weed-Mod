@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PP",
+    "BB",
+    "PP"
+  ],
+  "key": {
+    "P": {
+      "item": "bobs_weed_mod:rolling_paper"
+    },
+    "B": {
+      "item": "bobs_weed_mod:burnt_cannabis_bud"
+    }
+  },
+  "result": {
+    "item": "bobs_weed_mod:frank_joint"
+  }
+}

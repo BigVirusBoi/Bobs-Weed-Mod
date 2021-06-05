@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "bobs_weed_mod:block/cannabis_plant3"
+  }
+}

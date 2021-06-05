@@ -1,0 +1,12 @@
+{
+  "exhale": {
+	"category": "players",
+	"subtitle": "exhale",
+	"sounds": [
+	  {
+		"name": "bobs_weed_mod:exhale",
+		"stream": true
+	  }
+	]
+  }
+}

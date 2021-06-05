@@ -1,0 +1,74 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+	{
+	  "rolls": {
+		"min": 3,
+		"max": 5
+	  },
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "name": "bobs_weed_mod:cannabis_leaf",
+		  "conditions": [
+			{
+			  "condition": "minecraft:block_state_property",
+			  "block": "bobs_weed_mod:cannabis_plant",
+			  "properties": {
+				"age": "3"
+			  }
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "rolls": 1,
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "name": "bobs_weed_mod:cannabis_seeds",
+		  "conditions": [
+			{
+			  "condition": "minecraft:block_state_property",
+			  "block": "bobs_weed_mod:cannabis_plant",
+			  "properties": {
+				"age": "3"
+			  }
+			}
+		  ]
+		}
+	  ]
+	},
+	{
+	  "rolls": 1,
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "name": "bobs_weed_mod:cannabis_seeds"
+		}
+	  ]
+	},
+	{
+	  "rolls": {
+		"min": 2,
+		"max": 4
+	  },
+	  "entries": [
+		{
+		  "type": "minecraft:item",
+		  "name": "bobs_weed_mod:cannabis_bud",
+		  "conditions": [
+			{
+			  "condition": "minecraft:block_state_property",
+			  "block": "bobs_weed_mod:cannabis_plant",
+			  "properties": {
+				"age": "3"
+			  }
+			}
+		  ]
+		}
+	  ]
+	}
+  ]
+}
