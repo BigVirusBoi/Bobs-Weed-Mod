@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-// TODO: if (isFrank) -> https://www.youtube.com/watch?v=J5_6FHTnAh8
 public class JointItem extends Item {
     private final Random rand = new Random();
     private final boolean isFrank;
