@@ -5,7 +5,7 @@ issueTrackerURL="https://github.com/BigVirusBoi/Bobs-Weed-Mod/issues"
 
 [[mods]]
 modId="bobs_weed_mod"
-version="${file.jarVersion}"
+version="1.0"
 displayName="Bob's Weed Mod"
 #updateJSONURL="http://myurl.me/"
 #displayURL="http://example.com/"
