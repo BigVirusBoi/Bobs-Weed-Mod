@@ -1,11 +1,11 @@
 package me.bigvirusboi.weedmod.init;
 
 import me.bigvirusboi.weedmod.WeedMod;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class SoundInit {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, WeedMod.MOD_ID);

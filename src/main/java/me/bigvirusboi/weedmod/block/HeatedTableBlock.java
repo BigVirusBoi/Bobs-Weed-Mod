@@ -1,61 +1,55 @@
 package me.bigvirusboi.weedmod.block;
 
 import me.bigvirusboi.weedmod.WeedMod;
+import me.bigvirusboi.weedmod.block.entity.HeatedTableBlockEntity;
+import me.bigvirusboi.weedmod.init.BlockEntityInit;
 import me.bigvirusboi.weedmod.init.ItemInit;
-import me.bigvirusboi.weedmod.init.TileEntityInit;
-import me.bigvirusboi.weedmod.tileentity.HeatedTableTileEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-import java.util.stream.Stream;
-
-public class HeatedTableBlock extends Block {
+public class HeatedTableBlock extends BaseEntityBlock {
     public HeatedTableBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return TileEntityInit.TABLE.get().create();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return BlockEntityInit.TABLE.get().create(pos, state);
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (handIn == Hand.OFF_HAND) return ActionResultType.PASS;
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult result) {
+        if (hand == InteractionHand.OFF_HAND) return InteractionResult.PASS;
 
-        if (!worldIn.isRemote) {
-            TileEntity tile = worldIn.getTileEntity(pos);
-            if (tile instanceof HeatedTableTileEntity) {
-                ItemStack held = player.getHeldItem(handIn);
-                HeatedTableTileEntity table = (HeatedTableTileEntity) tile;
+        if (!level.isClientSide) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof HeatedTableBlockEntity table) {
+                ItemStack held = player.getItemInHand(hand);
 
                 if (held.isEmpty()) {
                     if (!table.isEmpty()) {
-                        player.setHeldItem(handIn, table.takeItems());
-                        return ActionResultType.SUCCESS;
-                    } else return ActionResultType.PASS;
+                        player.setItemInHand(hand, table.takeItems());
+                        return InteractionResult.SUCCESS;
+                    }
+                    return InteractionResult.PASS;
                 } else {
                     Item heldItem = held.getItem();
                     if (heldItem == ItemInit.CANNABIS_LEAF.get() || heldItem == ItemInit.CANNABIS_BUD.get()) {
@@ -65,8 +59,8 @@ public class HeatedTableBlock extends Block {
                         int totalCount = heldCount + tableCount;
 
                         if (tableStack.isEmpty()) {
-                            player.setHeldItem(handIn, table.setItems(held, 0));
-                            return ActionResultType.SUCCESS;
+                            player.setItemInHand(hand, table.setItems(held, 0));
+                            return InteractionResult.SUCCESS;
                         }
 
                         if (tableStack.getItem() == heldItem) {
@@ -74,39 +68,45 @@ public class HeatedTableBlock extends Block {
                                 // TODO This code block is a big nono
                                 int back = tableCount - heldCount;
                                 if (back < 0) back = -back;
-                                player.setHeldItem(handIn, table.setItems(held, back));
+                                player.setItemInHand(hand, table.setItems(held, back));
                                 WeedMod.LOGGER.debug(tableCount + " - " + heldCount + " = " + back);
                                 // TODO This code block is a big nono
                             } else {
-                                player.setHeldItem(handIn, table.setItems(held, 0));
+                                player.setItemInHand(hand, table.setItems(held, 0));
                             }
-                            return ActionResultType.SUCCESS;
+                            return InteractionResult.SUCCESS;
                         }
                     }
                 }
             }
         }
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
-            TileEntity tile = worldIn.getTileEntity(pos);
-            if (tile instanceof HeatedTableTileEntity) {
-                InventoryHelper.dropItems(worldIn, pos, ((HeatedTableTileEntity) tile).getItems());
+            BlockEntity entity = level.getBlockEntity(pos);
+            if (entity instanceof HeatedTableBlockEntity table) {
+                Containers.dropContents(level, pos, table.getItems());
             }
         }
     }
 
+    @Nullable
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-        return Stream.of(
-                Block.makeCuboidShape(2, 0, 2, 4, 7, 4),
-                Block.makeCuboidShape(12, 0, 12, 14, 7, 14),
-                Block.makeCuboidShape(1, 7, 1, 15, 9, 15),
-                Block.makeCuboidShape(12, 0, 2, 14, 7, 4),
-                Block.makeCuboidShape(2, 0, 12, 4, 7, 14)
-        ).reduce((v1, v2) -> VoxelShapes.combineAndSimplify(v1, v2, IBooleanFunction.OR)).get();
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return level.isClientSide ? null : createTickerHelper(type, BlockEntityInit.TABLE.get(), HeatedTableBlockEntity::tick);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return Shapes.or(
+                Block.box(2, 0, 2, 4, 7, 4),
+                Block.box(12, 0, 12, 14, 7, 14),
+                Block.box(1, 7, 1, 15, 9, 15),
+                Block.box(12, 0, 2, 14, 7, 4),
+                Block.box(2, 0, 12, 4, 7, 14)
+        );
     }
 }
