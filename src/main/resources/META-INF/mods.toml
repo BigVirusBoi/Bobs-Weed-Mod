@@ -1,14 +1,14 @@
 modLoader="javafml"
-loaderVersion="[36,)"
-license="MIT"
+loaderVersion="[39,)"
+license="All Rights Reserved"
 issueTrackerURL="https://github.com/BigVirusBoi/Bobs-Weed-Mod/issues"
 
 [[mods]]
 modId="bobs_weed_mod"
-version="1.0"
+version="${file.jarVersion}"
 displayName="Bob's Weed Mod"
-#updateJSONURL="http://myurl.me/"
-#displayURL="http://example.com/"
+#updateJSONURL=""
+#displayURL=""
 logoFile="logo.png"
 credits="BigVirusBoi"
 authors="BigVirusBoi"
@@ -16,3 +16,17 @@ description='''
 This is a weed mod I made for fun!
 PLEASE do NOT take this seriously. I DO NOT ENDORSE DRUGS OR SMOKING OR WEED. This is only made FOR FUN!
 '''
+
+[[dependencies.bobs_weed_mod]]
+modId = "forge"
+mandatory = true
+versionRange = "[39,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.bobs_weed_mod]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.18.1,1.19)"
+ordering = "NONE"
+side = "BOTH"
